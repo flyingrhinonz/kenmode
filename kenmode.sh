@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#   Written by Kenneth Aaron , v1.0.21 , 2021-11-14
+#   Written by Kenneth Aaron , v1.0.24 , 2022-01-22
 #
 #   Usage - source this file in your terminal:    . kenmode.sh
 #       and enjoy better productivity.
@@ -9,10 +9,10 @@
 #       untouched for other users who share the same login - if you don't
 #       care about this - you may decide to merge these settings into your
 #       .bashrc file and they will be loaded automatically when you login.
-#       Or simply call this file at the end of your .bashrc
+#       Or simply call this file at the end of your .bashrc  .
 #
-#   This also sets up more productive vim when the appropriate vim settings
-#       are present. For more details on improving vim check my page here:
+#   This also sets up more productive vim when the appropriate vim
+#       settings are present. For more details on improving vim check my page here:
 #       https://github.com/flyingrhinonz/vimrc_linux
 #
 #   If you wish to remove any of the added commands from an already-running shell
@@ -27,7 +27,7 @@ export MYCUSTOMVIM="ken"
     # ^ Sets up vim kenmode for vim configs that support it. Otherwise vim is left untouched.
     #       You need the supporting changes in vim config files for this to work.
 
-export LESS="-# 8 MRdXSKI"
+export LESS="-# 12 MRdXSKI"
     # ^ More sensible horizontal scrolling offset in less pager.
     #   Note - this may cause compatibility issues with programs that use the pager
     #       and force their own commands (for example git).
@@ -35,7 +35,7 @@ export LESS="-# 8 MRdXSKI"
     #       and it is less than one page long. That's why it's not in the args here.
     #
     #   Args explained:
-    #       -# 8    Horizontal scrolling is now 8 chars instead of the default half screen
+    #       -# 12   Horizontal scrolling is now 12 chars instead of the default half screen
     #       M       More verbose prompt
     #       R       Raw contol chars can be displayed - good for ansi color
     #       d       Suppress the dumb terminal error message
@@ -45,7 +45,7 @@ export LESS="-# 8 MRdXSKI"
     #       K       Quits less when ctrl-c is pressed
     #       I       Searches ignore case even if the pattern contains uppercase letters.
 
-export SYSTEMD_LESS="MRdFXSKI # 8"
+export SYSTEMD_LESS="MRdFXSKI # 12"
     # ^ More sensible paging for journalctl
 
 #export GIT_PAGER="cat"
@@ -84,26 +84,31 @@ function llh    { ls -lsbFh --color=always --time-style=long-iso "$@" | less -MR
 function llz    { ls -ZlbF --color=always --time-style=long-iso "$@" | cut -c-2048 | column -t | less -MRdFXSKI; }
 function lll    { ls -lasbF --color=always --time-style=long-iso "$@" | less -MRdFXSKI; }
 function lllz   { ls -ZlabF --color=always --time-style=long-iso "$@" | cut -c-2048 | column -t | less -MRdFXSKI; }
-    # ^ Notes:
+    #   ^ Notes:
     #
-    # ll    Displays regular files, lll shows hidden ones too.
-    # h     Displays human readable file sizes.
-    # z     Adds support for selinux.
+    #   ll    Displays regular files, lll shows hidden ones too.
+    #   h     Displays human readable file sizes.
+    #   z     Adds support for selinux.
     #
-    # Be aware that column expands on whitespace - if you have any spaces in your filenames
-    #   or anywhere else - they will be columnized in the output. You can spot these
-    #   when you see the backslashes and whitespace after.
-    #   This is only done for selinux 'z functions' and the output is still easier to read
-    #   than without column so this is the lesser evil.
+    #   You can add your own args on the command line which will be passed to 'ls' .
+    #
+    #   Be aware that column expands on whitespace - if you have any spaces in your filenames
+    #       or anywhere else - they will be columnized in the output. You can spot these
+    #       when you see the backslashes and whitespace after. The output is still easier to read
+    #       than without column so this is the lesser evil.
     #   Normally in our kind of output whitespace is found only in filenames (if at all)
-    #   and you're using 'z' for selinux contexts - so your columns will most likely be fine
-    #   and only skewed in the last column which holds the file name.
+    #       and you're using 'z' for selinux contexts - so your columns will most likely be fine
+    #       and only skewed in the last column which holds the file name.
     #   If you find a simple solution please tell me.
     #
-    # I added the cut filter to solve this message sometimes received
-    #   in selinux 'Z' operations:  'column: line too long' .
+    #   Note: Newer versions of:  ls  (as in RHEL 8+ and other new distros) display
+    #       selinux column width properly but I still like my version of:  llz  that uses
+    #       'column -t'  with a double space - it makes the output more readable so I'm keeping
+    #       my version here. But as mentioned - you can safely remove the:  'column -t'
+    #       and it will still display fine.
     #
-    # You can add your own args on the command line which will be passed to 'ls' .
+    #   Note: I added the cut filter to solve this message sometimes received
+    #       in selinux 'Z' operations:  'column: line too long' .
 
 
 function kdu    { du -smx * | sort -Vr | less -MRdFXSKI; }
@@ -122,14 +127,17 @@ function jcft   { journalctl --follow --lines=0 --no-full --output=short-iso --p
 
 
 # Make the command prompts more usable:
+#   Documented here: https://phoenixnap.com/kb/change-bash-prompt-linux
 (( $EUID == 0 )) && \
     {
-    #PS1='\[\033[01;31m\]\u@\h \[\033[01;33m\]\D{%Y-%m-%d %H:%M:%S}\[\033[01;34m\] $PWD/ \$\[\033[00m\] '
-    PS1='\[\033[01;31m\]\u@\h \[\033[01;33m\]\D{%Y-%m-%d %H:%M:%S}\[\033[01;34m\] ${PWD%%\/}/ \$\[\033[00m\] '
+    #PS1='\[\033[01;31m\]\u@\h \[\033[01;33m\]\D{%Y-%m-%d %H:%M:%S}\[\033[01;34m\] ${PWD%%\/}/ \$\[\033[00m\] '
+    # ^ Changed on 2022-01-21
+    PS1='\[\033[01;33m\]\D{%Y-%m-%d %H:%M:%S} \[\033[01;31m\]\u@\h \[\033[01;34m\]${PWD%%\/}/ \$\[\033[00m\] '
         # ^ For root user
     } || {
-    #PS1='\[\033[01;32m\]\u@\h \[\033[01;31m\]\D{%Y-%m-%d %H:%M:%S}\[\033[01;34m\] $PWD/ \$\[\033[00m\] '
-    PS1='\[\033[01;32m\]\u@\h \[\033[01;31m\]\D{%Y-%m-%d %H:%M:%S}\[\033[01;34m\] ${PWD%%\/}/ \$\[\033[00m\] '
+    #PS1='\[\033[01;32m\]\u@\h \[\033[01;31m\]\D{%Y-%m-%d %H:%M:%S}\[\033[01;34m\] ${PWD%%\/}/ \$\[\033[00m\] '
+    # ^ Changed on 2022-01-21
+    PS1='\[\033[01;33m\]\D{%Y-%m-%d %H:%M:%S} \[\033[01;32m\]\u@\h \[\033[01;34m\]${PWD%%\/}/ \$\[\033[00m\] '
         # ^ For non-root users
     }
 
