@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#   Written by Kenneth Aaron , v1.0.24 , 2022-01-22
+#   Written by Kenneth Aaron , v1.0.25 , 2022-02-22
 #
 #   Usage - source this file in your terminal:    . kenmode.sh
 #       and enjoy better productivity.
@@ -53,6 +53,9 @@ export SYSTEMD_LESS="MRdFXSKI # 12"
     #       This will allow me to use my own pager if I wish to do so.
     #       I'm not using this because git gets along ok with my current LESS export settings.
 
+export MYCUSTOMTMUX_KEN="ken"
+    # ^ Imports additional tmux settings from:  /etc/tmux.conf.ken  when
+    #       my custom:  /etc/tmux.conf  finds this env var set.
 
 # If vim exists, setup vim as preferred editor:
 [[ -x /usr/bin/vim ]] && \
