@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#   Written by Kenneth Aaron , v1.0.25 , 2022-02-22
+#   Written by Kenneth Aaron , v1.0.26 , 2022-02-27
 #
 #   Usage - source this file in your terminal:    . kenmode.sh
 #       and enjoy better productivity.
@@ -57,6 +57,7 @@ export MYCUSTOMTMUX_KEN="ken"
     # ^ Imports additional tmux settings from:  /etc/tmux.conf.ken  when
     #       my custom:  /etc/tmux.conf  finds this env var set.
 
+
 # If vim exists, setup vim as preferred editor:
 [[ -x /usr/bin/vim ]] && \
     {
@@ -69,6 +70,15 @@ export MYCUSTOMTMUX_KEN="ken"
         # ^ Useful because in RH 'view' calls 'vi' and not 'vim'
     }
 
+
+# Improve history:
+export HISTCONTROL=ignoredups
+    # ^ Line after line command duplicates are not saved.
+export HISTFILESIZE=4000
+export HISTSIZE=4000
+    # ^ Increase history in memory and persistently.
+export HISTTIMEFORMAT="%F %T  "
+    # ^ Gives proper timestamps on history commands.
 
 set -o vi
     # ^ Make command line use vim editing key bindings
@@ -89,9 +99,10 @@ function lll    { ls -lasbF --color=always --time-style=long-iso "$@" | less -MR
 function lllz   { ls -ZlabF --color=always --time-style=long-iso "$@" | cut -c-2048 | column -t | less -MRdFXSKI; }
     #   ^ Notes:
     #
-    #   ll    Displays regular files, lll shows hidden ones too.
-    #   h     Displays human readable file sizes.
-    #   z     Adds support for selinux.
+    #   ll  Displays regular files. This is the base command. Add to it the following letters:
+    #   +l  Shows hidden files too.
+    #   +h  Displays human readable file sizes.
+    #   +z  Shows selinux label.
     #
     #   You can add your own args on the command line which will be passed to 'ls' .
     #
@@ -123,6 +134,7 @@ function kdu    { du -smx * | sort -Vr | less -MRdFXSKI; }
 function jcff   { journalctl --follow --lines=0 --all --output=short-iso --pager-end --no-pager "$@"; }
     # ^ Usability improvements for tailing journalctl - Follow Full line length
     #   Tip - use arg:  -t <syslog_identifier>  for further filtering. Eg:  jcff -t crond
+    #       Multiple:  -t  can be used which match any of the items supplied.
 
 
 function jcft   { journalctl --follow --lines=0 --no-full --output=short-iso --pager-end --no-pager "$@"; }
@@ -133,14 +145,10 @@ function jcft   { journalctl --follow --lines=0 --no-full --output=short-iso --p
 #   Documented here: https://phoenixnap.com/kb/change-bash-prompt-linux
 (( $EUID == 0 )) && \
     {
-    #PS1='\[\033[01;31m\]\u@\h \[\033[01;33m\]\D{%Y-%m-%d %H:%M:%S}\[\033[01;34m\] ${PWD%%\/}/ \$\[\033[00m\] '
-    # ^ Changed on 2022-01-21
-    PS1='\[\033[01;33m\]\D{%Y-%m-%d %H:%M:%S} \[\033[01;31m\]\u@\h \[\033[01;34m\]${PWD%%\/}/ \$\[\033[00m\] '
+    PS1='\[\033[00;33m\]\D{%Y-%m-%d %H:%M:%S} \[\033[01;31m\]\u@\h \[\033[01;34m\]${PWD%%\/}/ \$\[\033[00m\] '
         # ^ For root user
     } || {
-    #PS1='\[\033[01;32m\]\u@\h \[\033[01;31m\]\D{%Y-%m-%d %H:%M:%S}\[\033[01;34m\] ${PWD%%\/}/ \$\[\033[00m\] '
-    # ^ Changed on 2022-01-21
-    PS1='\[\033[01;33m\]\D{%Y-%m-%d %H:%M:%S} \[\033[01;32m\]\u@\h \[\033[01;34m\]${PWD%%\/}/ \$\[\033[00m\] '
+    PS1='\[\033[00;33m\]\D{%Y-%m-%d %H:%M:%S} \[\033[01;32m\]\u@\h \[\033[01;34m\]${PWD%%\/}/ \$\[\033[00m\] '
         # ^ For non-root users
     }
 
