@@ -1,7 +1,13 @@
 #!/bin/bash
 
-#   Written by Kenneth Aaron , v1.0.26 , 2022-02-27
-#
+# Name:         kenmode
+# Description:  Bash productivity improver
+# Version:      1.0.27
+# Date:         2022-03-25
+# By:           Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
+# Github:       https://github.com/flyingrhinonz/kenmode
+# License:      GPLv3
+
 #   Usage - source this file in your terminal:    . kenmode.sh
 #       and enjoy better productivity.
 #
@@ -66,8 +72,10 @@ export MYCUSTOMTMUX_KEN="ken"
         # ^ Force editor to be vim rather than whatever default a program uses.
         #   Different programs check different vars - so I'm setting both.
 
-    alias view='/usr/bin/vim -R'
-        # ^ Useful because in RH 'view' calls 'vi' and not 'vim'
+    alias view='/usr/bin/vim -M'
+        # ^ Useful because in RH:  view  calls:  vi  and not:  vim
+        #   Also arg:  -M  makes vim truly readonly, as opposed to:  -R  that warns
+        #       about changes but let you force a write anyway.
     }
 
 
