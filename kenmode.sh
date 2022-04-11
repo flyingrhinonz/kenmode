@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.0.27
-# Date:         2022-03-25
+# Version:      1.0.28
+# Date:         2022-04-11
 # By:           Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # Github:       https://github.com/flyingrhinonz/kenmode
 # License:      GPLv3
@@ -112,9 +112,9 @@ function lllz   { ls -ZlabF --color=always --time-style=long-iso "$@" | cut -c-2
     #   +h  Displays human readable file sizes.
     #   +z  Shows selinux label.
     #
-    #   You can add your own args on the command line which will be passed to 'ls' .
+    #   You can add your own args on the command line which will be passed to:  ls  .
     #
-    #   Be aware that column expands on whitespace - if you have any spaces in your filenames
+    #   Be aware that:  column  expands on whitespace - if you have any spaces in your filenames
     #       or anywhere else - they will be columnized in the output. You can spot these
     #       when you see the backslashes and whitespace after. The output is still easier to read
     #       than without column so this is the lesser evil.
@@ -133,8 +133,15 @@ function lllz   { ls -ZlabF --color=always --time-style=long-iso "$@" | cut -c-2
     #       in selinux 'Z' operations:  'column: line too long' .
 
 
-function kdu    { du -smx * | sort -Vr | less -MRdFXSKI; }
-    # ^ More usable du (better still - use 'ncdu' if you can) .
+function kengrep  { grep --color=always "$@"; }
+    # ^ Forces colored grep always (by default grep removes colorization when
+    #       it detects it's fed into a pipe.
+    #   Don't use this command in scripts - it can break the rest of your pipeline
+    #       because it adds extra chars (color codes) to your text.
+
+
+function kendu    { du -smx * | sort -Vr | less -MRdFXSKI; }
+    # ^ More usable du (better still - use:  ncdu  if you can) .
     #       Gives output in Mbytes, sorted by size descending.
     #       Only works in current dir - ignores all args supplied to it.
 
