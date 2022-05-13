@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.0.28
-# Date:         2022-04-11
+# Version:      1.0.29
+# Date:         2022-05-14
 # By:           Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # Github:       https://github.com/flyingrhinonz/kenmode
 # License:      GPLv3
@@ -65,8 +65,7 @@ export MYCUSTOMTMUX_KEN="ken"
 
 
 # If vim exists, setup vim as preferred editor:
-[[ -x /usr/bin/vim ]] && \
-    {
+if [[ -x /usr/bin/vim ]]; then
     export VISUAL="/usr/bin/vim"
     export EDITOR="/usr/bin/vim"
         # ^ Force editor to be vim rather than whatever default a program uses.
@@ -76,7 +75,7 @@ export MYCUSTOMTMUX_KEN="ken"
         # ^ Useful because in RH:  view  calls:  vi  and not:  vim
         #   Also arg:  -M  makes vim truly readonly, as opposed to:  -R  that warns
         #       about changes but let you force a write anyway.
-    }
+fi
 
 
 # Improve history:
@@ -112,7 +111,7 @@ function lllz   { ls -ZlabF --color=always --time-style=long-iso "$@" | cut -c-2
     #   +h  Displays human readable file sizes.
     #   +z  Shows selinux label.
     #
-    #   You can add your own args on the command line which will be passed to:  ls  .
+    #   You can add your own args on the command line which will be passed to:  ls .
     #
     #   Be aware that:  column  expands on whitespace - if you have any spaces in your filenames
     #       or anywhere else - they will be columnized in the output. You can spot these
@@ -169,64 +168,55 @@ function jcft   { journalctl --follow --lines=0 --no-full --output=short-iso --p
 
 
 # List outstanding items:
-[[ -s ~/todo.txt ]] && \
-    {
+if [[ -s ~/todo.txt ]]; then
     echo
     echo "***** There are outstanding tasks. Printing:  ~/todo.txt: *****"
     cat ~/todo.txt
-    } || {
-    :
-    }
+fi
 
 
 # List terminal multiplexers running sessions:
 
 # Handle tmux:
-#[[ (-v PS1) && ( -x /usr/bin/tmux ) ]] && \
+#if [[ (-v PS1) && ( -x /usr/bin/tmux ) ]]; then
     # ^ This works in bash 4.2+ but some boxes run older bash
     #       so we need to use the less powerful solution below:
 
-[[ ( PS1 ) && ( -x /usr/bin/tmux ) ]] && \
-    {
+if [[ ( PS1 ) && ( -x /usr/bin/tmux ) ]]; then
     TmuxResult="$( /usr/bin/tmux ls 2>/dev/null || echo "NONE" )" || :
-    [[ "${TmuxResult}" == "NONE" ]] && \
-        {
+
+    if [[ "${TmuxResult}" == "NONE" ]]; then
         #echo
         #echo "*** No running TMUX sessions found ***"
             # ^ Unnecessary output
         :   # Required when clause is empty
-        } || {
+    else
         echo
         echo "***** Currently running TMUX sessions: *****"
         echo "${TmuxResult}"
-        }
-    } || {
-    :
-    }
+    fi
+fi
 
 
 # Handle screen:
-#[[ ( -v PS1 ) && ( -x /usr/bin/screen ) ]] && \
+#if [[ ( -v PS1 ) && ( -x /usr/bin/screen ) ]]; then
     # ^ This works in bash 4.2+ but some boxes run older bash
     #       so we need to use the less powerful solution below:
 
-[[ (  PS1 ) && ( -x /usr/bin/screen ) ]] && \
-    {
+if [[ (  PS1 ) && ( -x /usr/bin/screen ) ]]; then
     ScreenResult="$( /usr/bin/screen -ls 2>&1 || : )" || :
-    [[ ( "${ScreenResult}" == *"There are screens on"* ) || ( "${ScreenResult}" == *"There is a screen on"* )  ]] && \
-        {
+
+    if [[ ( "${ScreenResult}" == *"There are screens on"* ) || ( "${ScreenResult}" == *"There is a screen on"* )  ]]; then
         echo
         echo "***** Currently running SCREEN sessions: *****"
         echo "${ScreenResult}"
-        } || {
+    else
         #echo
         #echo "*** No running SCREEN sessions found ***"
             # ^ Unnecessary output
         :   # Required when clause is empty
-        }
-    } || {
-    :
-    }
+    fi
+fi
 
 
 echo
