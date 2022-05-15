@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.0.29
-# Date:         2022-05-14
+# Version:      1.0.30
+# Date:         2022-05-16
 # By:           Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # Github:       https://github.com/flyingrhinonz/kenmode
 # License:      GPLv3
@@ -157,14 +157,13 @@ function jcft   { journalctl --follow --lines=0 --no-full --output=short-iso --p
 
 # Make the command prompts more usable:
 #   Documented here: https://phoenixnap.com/kb/change-bash-prompt-linux
-(( $EUID == 0 )) && \
-    {
+if (( $EUID == 0 )); then
     PS1='\[\033[00;33m\]\D{%Y-%m-%d %H:%M:%S} \[\033[01;31m\]\u@\h \[\033[01;34m\]${PWD%%\/}/ \$\[\033[00m\] '
         # ^ For root user
-    } || {
+else
     PS1='\[\033[00;33m\]\D{%Y-%m-%d %H:%M:%S} \[\033[01;32m\]\u@\h \[\033[01;34m\]${PWD%%\/}/ \$\[\033[00m\] '
         # ^ For non-root users
-    }
+fi
 
 
 # List outstanding items:
