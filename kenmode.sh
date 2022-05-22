@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.0.30
-# Date:         2022-05-16
+# Version:      1.0.31
+# Date:         2022-05-23
 # By:           Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # Github:       https://github.com/flyingrhinonz/kenmode
 # License:      GPLv3
@@ -101,9 +101,7 @@ unalias lll &> /dev/null || :
 # Much better 'ls' versions:
 function ll     { ls -lsbF --color=always --time-style=long-iso "$@" | less -MRdFXSKI; }
 function llh    { ls -lsbFh --color=always --time-style=long-iso "$@" | less -MRdFXSKI; }
-function llz    { ls -ZlbF --color=always --time-style=long-iso "$@" | cut -c-2048 | column -t | less -MRdFXSKI; }
 function lll    { ls -lasbF --color=always --time-style=long-iso "$@" | less -MRdFXSKI; }
-function lllz   { ls -ZlabF --color=always --time-style=long-iso "$@" | cut -c-2048 | column -t | less -MRdFXSKI; }
     #   ^ Notes:
     #
     #   ll  Displays regular files. This is the base command. Add to it the following letters:
@@ -121,15 +119,61 @@ function lllz   { ls -ZlabF --color=always --time-style=long-iso "$@" | cut -c-2
     #       and you're using 'z' for selinux contexts - so your columns will most likely be fine
     #       and only skewed in the last column which holds the file name.
     #   If you find a simple solution please tell me.
+
+
+#function llz    { ls -ZlbF --color=always --time-style=long-iso "$@" | cut -c-2048 | column -t | less -MRdFXSKI; }
+#function lllz   { ls -ZlabF --color=always --time-style=long-iso "$@" | cut -c-2048 | column -t | less -MRdFXSKI; }
+    # ^ The function definitions later on use native `ls` features and should be better.
     #
     #   Note: Newer versions of:  ls  (as in RHEL 8+ and other new distros) display
-    #       selinux column width properly but I still like my version of:  llz  that uses
+    #       selinux column width properly but some people still like my version of:  llz  that uses
     #       'column -t'  with a double space - it makes the output more readable so I'm keeping
-    #       my version here. But as mentioned - you can safely remove the:  'column -t'
-    #       and it will still display fine.
+    #       this version here too in case you want to use it.
+    #       Remember to comment out:  llz  and:  lllz  functions below.
     #
     #   Note: I added the cut filter to solve this message sometimes received
     #       in selinux 'Z' operations:  'column: line too long' .
+
+
+function llz {
+    # ^ There can be issues with:  column causing trouble:
+    #       a. It sometimes doesn't handle colored text and misinterprets color codes.
+    #       b. Whitespace in text fields is interpreted as individual colums - skewing the output.
+    #   Newer versions of:  ls  display selinux width properly and this function checks for
+    #       a suitable version of:  ls  to use it instead of:  column.
+    #   For human readable - just do:  llz -h  (you can add any args you want).
+    local LsVersion="$(ls --version | head -n 1)"
+    local CleanLsVersion="${LsVersion##* }"
+    local MajorVersion="${CleanLsVersion%%.*}"
+    local MinorVersion="${CleanLsVersion##*.}"
+
+    if (( $MajorVersion >= 8 )); then
+        if (( $MinorVersion >= 30 )); then
+            ls -ZlbF --color=always --time-style=long-iso "$@" | less -MRdFXSKI
+            return
+        fi
+    fi
+
+    ls -ZlbF --color=always --time-style=long-iso "$@" | cut -c-2048 | column -t | less -MRdFXSKI
+}
+
+
+function lllz {
+    # ^ Same comment as function:  llz
+    local LsVersion="$(ls --version | head -n 1)"
+    local CleanLsVersion="${LsVersion##* }"
+    local MajorVersion="${CleanLsVersion%%.*}"
+    local MinorVersion="${CleanLsVersion##*.}"
+
+    if (( $MajorVersion >= 8 )); then
+        if (( $MinorVersion >= 30 )); then
+            ls -ZlabF --color=always --time-style=long-iso "$@" | less -MRdFXSKI
+            return
+        fi
+    fi
+
+    ls -ZlabF --color=always --time-style=long-iso "$@" | cut -c-2048 | column -t | less -MRdFXSKI
+}
 
 
 function kengrep  { grep --color=always "$@"; }
