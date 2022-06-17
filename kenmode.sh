@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.0.31
-# Date:         2022-05-23
+# Version:      1.0.32
+# Date:         2022-06-14
 # By:           Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # Github:       https://github.com/flyingrhinonz/kenmode
 # License:      GPLv3
@@ -183,10 +183,11 @@ function kengrep  { grep --color=always "$@"; }
     #       because it adds extra chars (color codes) to your text.
 
 
-function kendu    { du -smx * | sort -Vr | less -MRdFXSKI; }
+function kendu    { du -smx * .[^.]* | sort -Vr | less -MRdFXSKI; }
     # ^ More usable du (better still - use:  ncdu  if you can) .
     #       Gives output in Mbytes, sorted by size descending.
     #       Only works in current dir - ignores all args supplied to it.
+    #   The second part of du looks for hidden files/dirs.
 
 
 function jcff   { journalctl --follow --lines=0 --all --output=short-iso --pager-end --no-pager "$@"; }
