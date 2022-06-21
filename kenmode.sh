@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.0.32
-# Date:         2022-06-14
+# Version:      1.0.33
+# Date:         2022-06-21
 # By:           Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # Github:       https://github.com/flyingrhinonz/kenmode
 # License:      GPLv3
@@ -27,6 +27,12 @@
 #   Remove them with:  unset -f <function_name>
 #       Note - without:  -f  bash will try to remove a variable with the same name
 #       first, and if not found will try to remove the function.
+
+
+if ! [[ $- == *i* ]]; then
+    return
+        # ^ If this is a non-interactive terminal do not proceed.
+fi
 
 
 export MYCUSTOMVIM="ken"

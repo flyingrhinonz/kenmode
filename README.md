@@ -16,11 +16,23 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 See the GNU General Public License for more details.
 
 
+
 # Manual install instructions:
 
 * Copy: **kenmode.sh**   to your home directory.
-* To use it every time you open a shell - call it from the end of your:  **~/.bashrc**  file.
-* To manually use it (for example on a shared machine that you don't want to permanently improve for everyone who's not yet ready for this) - simply source it at the command line:  **. kenmode.sh**  and it will only improve your current session.
+* To manually use it (for example on a shared machine that you don't want to permanently
+    improve for everyone who's not yet ready for this) - simply source it at the command
+    line:  **. kenmode.sh**  and it will only improve your current session.
+* To use it every time you open a shell - call it from the end of your:  **~/.bashrc**  file in a similar
+    way to the following example. Make sure you do this for interactive mode only because
+    it may interfere with scp copies when sourced non-interactively.
+
+```
+if [[ $- == *i* ]]; then
+    # ^ Only source this file in interactive mode
+    . /usr/local/lib/kenmode.sh
+fi
+```
 
 
 # Usage:
@@ -32,7 +44,7 @@ See the GNU General Public License for more details.
 * Sets up **vim kenmode** for people who use my improved vim settings which can be found here:
     https://github.com/flyingrhinonz/vimrc_linux
 * Better  **ls**  functions:  ll, llh, llz, lll, lllz .
-* Functions to improve regularly used journalctl and du commands:  jcff, jcft, kdu .
+* Functions to improve regularly used journalctl and du commands:  jcff, jcft, kendu .
 * Displays your **~/todo.txt** file if it exists at login.
 * Displays running **screen** and **tmux** session IDs if they exist at login.
 
