@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.0.33
-# Date:         2022-06-21
+# Version:      1.0.36
+# Date:         2022-11-04
 # By:           Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # Github:       https://github.com/flyingrhinonz/kenmode
 # License:      GPLv3
@@ -182,6 +182,10 @@ function lllz {
 }
 
 
+function kenps { ps auxfww | less; }
+    # ^ Useful version of ps command.
+
+
 function kengrep  { grep --color=always "$@"; }
     # ^ Forces colored grep always (by default grep removes colorization when
     #       it detects it's fed into a pipe.
@@ -189,10 +193,11 @@ function kengrep  { grep --color=always "$@"; }
     #       because it adds extra chars (color codes) to your text.
 
 
-function kendu    { du -smx * .[^.]* | sort -Vr | less -MRdFXSKI; }
+function kendu    { du -smx * .[^.]* 2>/dev/null | sort -Vr | less -MRdFXSKI; }
     # ^ More usable du (better still - use:  ncdu  if you can) .
     #       Gives output in Mbytes, sorted by size descending.
     #       Only works in current dir - ignores all args supplied to it.
+    #       Does not scan different file systems (du -x).
     #   The second part of du looks for hidden files/dirs.
 
 
