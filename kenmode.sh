@@ -4,9 +4,9 @@
 # Description:  Bash productivity improver
 # Version:      1.0.36
 # Date:         2022-11-04
-# By:           Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
-# Github:       https://github.com/flyingrhinonz/kenmode
+# Copyright:    Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # License:      GPLv3
+# Github:       https://github.com/flyingrhinonz/kenmode
 
 #   Usage - source this file in your terminal:    . kenmode.sh
 #       and enjoy better productivity.
