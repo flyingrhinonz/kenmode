@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.0.36
-# Date:         2022-11-04
+# Version:      1.0.37
+# Date:         2023-07-12
 # Copyright:    Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # License:      GPLv3
 # Github:       https://github.com/flyingrhinonz/kenmode
@@ -186,11 +186,15 @@ function kenps { ps auxfww | less; }
     # ^ Useful version of ps command.
 
 
-function kengrep  { grep --color=always "$@"; }
+function kengrep    { grep --color=always "$@"; }
     # ^ Forces colored grep always (by default grep removes colorization when
     #       it detects it's fed into a pipe.
     #   Don't use this command in scripts - it can break the rest of your pipeline
     #       because it adds extra chars (color codes) to your text.
+
+
+function kendf      { df -hTP; }
+    # ^ Improved df .
 
 
 function kendu    { du -smx * .[^.]* 2>/dev/null | sort -Vr | less -MRdFXSKI; }
