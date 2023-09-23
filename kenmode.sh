@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.0.37
-# Date:         2023-07-12
+# Version:      1.1.0
+# Date:         2023-09-24
 # Copyright:    Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # License:      GPLv3
 # Github:       https://github.com/flyingrhinonz/kenmode
@@ -179,6 +179,34 @@ function lllz {
     fi
 
     ls -ZlabF --color=always --time-style=long-iso "$@" | cut -c-2048 | column -t | less -MRdFXSKI
+}
+
+
+function kenhcc {
+    # ^ Runs a Host Command inside a Container (hcc)
+    #
+    #   Example:  `kenhcc f162d3b84432 ss -lntpu`
+    #       Use the:  `ss`  command from the host to display the listening ports
+    #           inside the container.
+    #
+    #   Example:  `kenhcc testcontiner ss -a`
+    #       Same as above but displays more information which is helpful to show
+    #           some output in case the container is not listening on any ports.
+
+    if (( $# < 2 )); then
+        echo "Incorrect number of args supplied."
+        echo "Usage:  kenhcc <container_name | container_id> <command_from_host> [args]"
+        return
+    fi
+
+    if [[ $( which podman &>/dev/null; echo $? ) != "0" ]]; then
+        echo "podman required but not found"
+        return
+    fi
+
+    local ContPID="$( podman container inspect $1 --format '{{.State.Pid}}' )"
+    shift
+    sudo nsenter -n -t "${ContPID}" $@
 }
 
 
