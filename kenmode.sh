@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.1.0
-# Date:         2023-09-24
+# Version:      1.1.1
+# Date:         2023-12-22
 # Copyright:    Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # License:      GPLv3
 # Github:       https://github.com/flyingrhinonz/kenmode
@@ -183,7 +183,7 @@ function lllz {
 
 
 function kenhcc {
-    # ^ Runs a Host Command inside a Container (hcc)
+    # ^ INCOMPLETE -  Runs a Host Command inside a Container (hcc)
     #
     #   Example:  `kenhcc f162d3b84432 ss -lntpu`
     #       Use the:  `ss`  command from the host to display the listening ports
@@ -207,6 +207,9 @@ function kenhcc {
     local ContPID="$( podman container inspect $1 --format '{{.State.Pid}}' )"
     shift
     sudo nsenter -n -t "${ContPID}" $@
+        # ^ This command is incomplete and ONLY RESTRICTS THE NETWORK NAMESPACE.
+        #   Meaning - it's only good for troubleshooting networking.
+        #   Need to complete this command for other use cases.
 }
 
 
@@ -225,12 +228,17 @@ function kendf      { df -hTP; }
     # ^ Improved df .
 
 
-function kendu    { du -smx * .[^.]* 2>/dev/null | sort -Vr | less -MRdFXSKI; }
-    # ^ More usable du (better still - use:  ncdu  if you can) .
+function kendu    { du -smx ${1:-}* ${1:-}.[^.]* 2>/dev/null | sort -Vr | less -MRdFXSKI; }
+    # ^ More usable `du` (better still - use:  `ncdu`  if you can) .
     #       Gives output in Mbytes, sorted by size descending.
-    #       Only works in current dir - ignores all args supplied to it.
-    #       Does not scan different file systems (du -x).
-    #   The second part of du looks for hidden files/dirs.
+    #       Is not supposed to scan different file systems (du -x) , however it many cases it does -
+    #           I haven't solved this completely.
+    #
+    #   Usage:  `kendu`  without args  - gives the:  `du`  of the current location.
+    #           `kendu /root/`  - if you supply one arg (as $1) - gives the:  `du`  of that location.
+    #
+    #   The:  `du`  command is built of two parts - the first part gets the size of regular files/dirs.
+    #       The second part looks for hidden files/dirs.
 
 
 function jcff   { journalctl --follow --lines=0 --all --output=short-iso --pager-end --no-pager "$@"; }
