@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.1.1
-# Date:         2023-12-22
+# Version:      1.1.2
+# Date:         2024-01-01
 # Copyright:    Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # License:      GPLv3
 # Github:       https://github.com/flyingrhinonz/kenmode
@@ -312,6 +312,12 @@ if [[ (  PS1 ) && ( -x /usr/bin/screen ) ]]; then
         :   # Required when clause is empty
     fi
 fi
+
+
+stty -ixon
+    # ^ Disable:  pause transmission code `XOF`
+    #   This is what is used to pause terminal scrolling. Remember you needed to use:  ctrl-q  to resume scrolling...
+    #   This change enables you to use:  ctrl-s  in addition to:  ctrl-r  for history scrolling.
 
 
 echo
