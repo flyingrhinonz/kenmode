@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.1.2
-# Date:         2024-01-01
+# Version:      1.1.4
+# Date:         2024-02-22
 # Copyright:    Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # License:      GPLv3
 # Github:       https://github.com/flyingrhinonz/kenmode
@@ -27,6 +27,14 @@
 #   Remove them with:  unset -f <function_name>
 #       Note - without:  -f  bash will try to remove a variable with the same name
 #       first, and if not found will try to remove the function.
+#
+#   The following commands are used (normally shouldn't be a problem on a full linux box,
+#       but may be missing if using kenmode inside a container with a minimal base image):
+#       cat column cut df du find grep head journalctl less ls ps sort
+#   The following commands are setup and used if available:
+#       screen tmux vim
+#   If any command is missing the corresponding kenmode command will give a non fatal error.
+
 
 
 if ! [[ $- == *i* ]]; then
@@ -228,6 +236,14 @@ function kendf      { df -hTP; }
     # ^ Improved df .
 
 
+function kenfind    { find . -iname "*{$*}*" -print 2>/dev/null; }
+    # ^ Find the supplied text, case insensitive, in the current location, hiding all error messages.
+    #   Make sure first to:  `cd`  to the location you'd like to be the root starting point of the search.
+    #   Using:  `{$*}`  instead of:  `${@}`  because args are passed as a single string - space separated.
+    #       This saves quoting space separated items. Of course you still need to quote double spaced
+    #       and other wierd stuff.
+
+
 function kendu    { du -smx ${1:-}* ${1:-}.[^.]* 2>/dev/null | sort -Vr | less -MRdFXSKI; }
     # ^ More usable `du` (better still - use:  `ncdu`  if you can) .
     #       Gives output in Mbytes, sorted by size descending.
@@ -316,8 +332,10 @@ fi
 
 stty -ixon
     # ^ Disable:  pause transmission code `XOF`
-    #   This is what is used to pause terminal scrolling. Remember you needed to use:  ctrl-q  to resume scrolling...
-    #   This change enables you to use:  ctrl-s  in addition to:  ctrl-r  for history scrolling.
+    #       This is what is used to pause terminal scrolling by pressing:  ctrl-s.
+    #       Remember you needed to use:  ctrl-q  to resume scrolling after pressing ctrl-s ...
+    #   This change enables you to use:  ctrl-s  for history scrolling (called:  i-search),
+    #       in addition to:  ctrl-r  that you already had for reverse history scrolling (called:  reverse-i-search).
 
 
 echo
