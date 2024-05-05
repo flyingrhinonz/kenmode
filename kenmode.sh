@@ -2,7 +2,7 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.1.4
+# Version:      1.1.5
 # Date:         2024-02-22
 # Copyright:    Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # License:      GPLv3
@@ -236,12 +236,10 @@ function kendf      { df -hTP; }
     # ^ Improved df .
 
 
-function kenfind    { find . -iname "*{$*}*" -print 2>/dev/null; }
+function kenfind    { find . -iname "*$@*" -print 2>/dev/null; }
     # ^ Find the supplied text, case insensitive, in the current location, hiding all error messages.
     #   Make sure first to:  `cd`  to the location you'd like to be the root starting point of the search.
-    #   Using:  `{$*}`  instead of:  `${@}`  because args are passed as a single string - space separated.
-    #       This saves quoting space separated items. Of course you still need to quote double spaced
-    #       and other wierd stuff.
+    #   To search for filenames containing spaces or weird stuff - make sure to quote your text.
 
 
 function kendu    { du -smx ${1:-}* ${1:-}.[^.]* 2>/dev/null | sort -Vr | less -MRdFXSKI; }
