@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.1.5
-# Date:         2024-02-22
+# Version:      1.1.6
+# Date:         2024-08-23
 # Copyright:    Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # License:      GPLv3
 # Github:       https://github.com/flyingrhinonz/kenmode
@@ -276,11 +276,23 @@ else
 fi
 
 
-# List outstanding items:
+echo
+echo
+
+# List outstanding items #1:
+#   ^ If this list needs to get longer - replace all items with a loop.
 if [[ -s ~/todo.txt ]]; then
     echo
     echo "***** There are outstanding tasks. Printing:  ~/todo.txt: *****"
     cat ~/todo.txt
+fi
+
+
+# List outstanding items #2:
+if [[ -s ~/.todo.txt ]]; then
+    echo
+    echo "***** There are outstanding tasks. Printing:  ~/.todo.txt: *****"
+    cat ~/.todo.txt
 fi
 
 
