@@ -276,9 +276,6 @@ else
 fi
 
 
-echo
-echo
-
 # List outstanding items #1:
 #   ^ If this list needs to get longer - replace all items with a loop.
 if [[ -s ~/todo.txt ]]; then
