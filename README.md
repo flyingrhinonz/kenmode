@@ -1,6 +1,6 @@
 # kenmode - improved bash interactive mode productivity
 
-Copyright (C) 2021 Kenneth Aaron.
+Copyright (C) 2021+ Kenneth Aaron.
 
 flyingrhino AT orcon DOT net DOT nz
 
@@ -49,9 +49,11 @@ fi
 * Sets up **vim kenmode** for people who use my improved vim settings which can be found here:
     https://github.com/flyingrhinonz/vimrc_linux
 * Better  **ls**  functions:  ll, llh, llz, lll, lllz .
-* Functions to improve regularly used journalctl, du and other commands:  jcff, jcft, kendu, kenps, kengrep .
+* Functions to improve regularly used journalctl, du and other commands:  jcff, jcft, kendu, kenps, kengrep, kenhcc, kendf, kenfind .
 * Displays your **~/todo.txt** file if it exists at login.
 * Displays running **screen** and **tmux** session IDs if they exist at login.
+* Modifies bash history settings
+* Enables ctrl-s for forward history scrolling (in addition to ctrl-r for reverse history scrolling that you should already have)
 
 
 Enjoy...

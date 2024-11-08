@@ -3,8 +3,8 @@
 # Name:         kenmode
 # Description:  Bash productivity improver
 # Version:      1.1.6
-# Date:         2024-08-23
-# Copyright:    Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
+# Date:         2024-10-06
+# Copyright:    2021+ Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # License:      GPLv3
 # Github:       https://github.com/flyingrhinonz/kenmode
 
