@@ -2,8 +2,8 @@
 
 # Name:         kenmode
 # Description:  Bash productivity improver
-# Version:      1.1.6
-# Date:         2024-10-06
+# Version:      1.1.7
+# Date:         2024-11-27
 # Copyright:    2021+ Kenneth Aaron , flyingrhino AT orcon DOT net DOT nz
 # License:      GPLv3
 # Github:       https://github.com/flyingrhinonz/kenmode
@@ -43,10 +43,6 @@ if ! [[ $- == *i* ]]; then
 fi
 
 
-export MYCUSTOMVIM="ken"
-    # ^ Sets up vim kenmode for vim configs that support it. Otherwise vim is left untouched.
-    #       You need the supporting changes in vim config files for this to work.
-
 export LESS="-# 12 MRdXSKI"
     # ^ More sensible horizontal scrolling offset in less pager.
     #   Note - this may cause compatibility issues with programs that use the pager
@@ -76,6 +72,14 @@ export SYSTEMD_LESS="MRdFXSKI # 12"
 export MYCUSTOMTMUX_KEN="ken"
     # ^ Imports additional tmux settings from:  /etc/tmux.conf.ken  when
     #       my custom:  /etc/tmux.conf  finds this env var set.
+
+export RANGER_LOAD_DEFAULT_RC="FALSE"
+    # ^ To stop ranger from loading both the default and your custom rc.conf
+    #       which is normally found in:  `~/.config/ranger/rc.conf`
+
+export MYCUSTOMVIM="ken"
+    # ^ Sets up vim kenmode for vim configs that support it. Otherwise vim is left untouched.
+    #       You need the supporting changes in vim config files for this to work.
 
 
 # If vim exists, setup vim as preferred editor:
